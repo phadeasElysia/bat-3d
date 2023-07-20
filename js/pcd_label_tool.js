@@ -378,7 +378,7 @@ function rotateAroundObjectAxis(object, axis, radians) {
     object.rotation.setFromRotationMatrix(object.matrix);
 }
 
-PrismGeometry = function (vertices, height) {
+PrismGeometry = function (vertices, height) {binary
     let shape = new THREE.Shape();
     (function f(ctx) {
 
@@ -518,7 +518,7 @@ dat.GUI.prototype.removeFolder = function (name) {
 };
 
 //calculate inverse matrix
-function inverseMatrix(inMax) {
+function inverseMatrix(inMax) {binary
     let det = (inMax[0][0] * inMax[1][1] * inMax[2][2] * inMax[3][3]) + (inMax[0][0] * inMax[1][2] * inMax[2][3] * inMax[3][1]) + (inMax[0][0] * inMax[1][3] * inMax[2][1] * inMax[3][2])
         - (inMax[0][0] * inMax[1][3] * inMax[2][2] * inMax[3][1]) - (inMax[0][0] * inMax[1][2] * inMax[2][1] * inMax[3][3]) - (inMax[0][0] * inMax[1][1] * inMax[2][3] * inMax[3][2])
         - (inMax[0][1] * inMax[1][0] * inMax[2][2] * inMax[3][3]) - (inMax[0][2] * inMax[1][0] * inMax[2][3] * inMax[3][1]) - (inMax[0][3] * inMax[1][0] * inMax[2][1] * inMax[3][2])

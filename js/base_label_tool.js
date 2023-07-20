@@ -7,7 +7,7 @@ let labelTool = {
     currentDataset: "",
     currentDatasetIdx: 0,
     sequence: "",
-    pointCloudOnlyAnnotation: true,
+    pointCloudOnlyAnnotation: false,
     numFramesNuScenes: 50,
     numFramesProvidentia: 50,
     frameScreenshots: [],
@@ -1051,6 +1051,15 @@ let labelTool = {
     },
     setFileNames() {
         let fileNameArray = [];
+        fetch('py/output.txt')
+            .then(response => response.text())
+            .then(text => {
+                labelTool.numFramesNuScenes = text.split('\n')[0];
+                //console.log(firstLine);
+            })
+            .catch(error => {
+                console.error('Error fetching file:', error);
+            });
         if (labelTool.currentDataset === labelTool.datasets.NuScenes) {
             labelTool.numFrames = labelTool.numFramesNuScenes;
             for (let i = 0; i < labelTool.numFrames; i++) {
