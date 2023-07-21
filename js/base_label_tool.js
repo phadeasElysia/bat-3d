@@ -591,12 +591,17 @@ let labelTool = {
             for (let i = 0; i < annotationObjects.contents[j].length; i++) {
                 if (annotationObjects.contents[j][i] !== undefined && this.cubeArray[j][i] !== undefined) {
                     let annotationObj = annotationObjects.contents[j][i];
+                    let visibility = undefined
+                    if (annotationObj['visibility'] !== undefined){
+                        visibility = annotationObj['visibility']
+                    }
                     // Nuscenes labels are stored in global frame within database
                     // [optional] Nuscenes: transform 3d positions from lidar frame to global frame (lidar -> ego, ego -> global)
                     let annotationObjectJSON =
                         {
                             "id": annotationObj["trackId"],
                             "category": annotationObj["class"],
+                            "visibility": visibility,
                             "box3d": {
                                 "dimension": {
                                     "width": this.cubeArray[j][i].scale.x,

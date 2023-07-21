@@ -1213,6 +1213,8 @@ function addBoundingBoxGui(bbox, bboxEndParams) {
         $("#bounding-box-3d-menu ul").children().eq(insertIndex + numGUIOptions).children().first().children().first().children().first().text(bbox.class + " " + value);
     });
 
+
+
     let labelAttributes = {
         'copy_label_to_next_frame': bbox.copyLabelToNextFrame,
         reset: function () {
@@ -1221,7 +1223,8 @@ function addBoundingBoxGui(bbox, bboxEndParams) {
         delete: function () {
             let labelIndex = getObjectIndexByTrackIdAndClass(bbox.trackId, bbox.class, labelTool.currentFileIndex);
             deleteObject(bbox.class, bbox.trackId, labelIndex);
-        }
+        },
+        'visibility': "0%-40"
     };
     let copyLabelToNextFrameCheckbox = folderBoundingBox3DArray[folderBoundingBox3DArray.length - 1].add(labelAttributes, 'copy_label_to_next_frame').name("Copy label to next frame");
     copyLabelToNextFrameCheckbox.domElement.id = 'copy-label-to-next-frame-checkbox-' + insertIndex;
@@ -1237,6 +1240,82 @@ function addBoundingBoxGui(bbox, bboxEndParams) {
 
     folderBoundingBox3DArray[folderBoundingBox3DArray.length - 1].add(labelAttributes, 'reset').name("Reset");
     folderBoundingBox3DArray[folderBoundingBox3DArray.length - 1].add(labelAttributes, 'delete').name("Delete");
+    //folderBoundingBox3DArray[folderBoundingBox3DArray.length - 1].add(labelAttributes, 'visibility').name("Visibility");
+    let visibility = folderBoundingBox3DArray[folderBoundingBox3DArray.length - 1].add(labelAttributes, 'visibility',['0%-40%','41%-60%','61%-80%','91%-100%']).name("Visibility");
+    visibility.onChange(function (value){
+        // if (value < 0 || value > 100) {
+        //             labelTool.logger.error("You have entered an invalid track ID.");
+        //         }else{
+        //     annotationObjects.contents[labelTool.currentFileIndex][insertIndex]["visibility"] = value;
+        //     labelTool.logger.error("visibility updated!")
+        //     //labelTool.logger.error(annotationObjects.contents[labelTool.currentFileIndex][insertIndex]["visibility"])
+        // }
+        if(value === '0%-40%'){
+            annotationObjects.contents[labelTool.currentFileIndex][insertIndex]["visibility"] = value;
+        }else if(value === '41%-60%'){
+            annotationObjects.contents[labelTool.currentFileIndex][insertIndex]["visibility"] = value;
+        }else if(value === '61%-80'){
+            annotationObjects.contents[labelTool.currentFileIndex][insertIndex]["visibility"] = value;
+        }else{
+            annotationObjects.contents[labelTool.currentFileIndex][insertIndex]["visibility"] = value;
+        }
+
+    })
+    // guiOptions.add(parameters, 'views', ['perspective', 'orthographic']).name("Select View").onChange(function (value) {
+    //     if (transformControls !== undefined) {
+    //         labelTool.selectedMesh = undefined;
+    //         transformControls.detach();
+    //         transformControls = undefined;
+    //         hideMasterView();
+    //     }
+    //     if (value === labelTool.views.orthographic) {
+    //         birdsEyeViewFlag = true;
+    //         disablePointSizeSlider();
+    //         setOrthographicView();
+    //     } else {
+    //         birdsEyeViewFlag = false;
+    //         enablePointSizeSlider();
+    //         setPerspectiveView();
+    //     }
+    //     if (keyboardNavigation === false) {
+    //         currentOrbitControls.update();
+    //     }
+    //     labelTool.removeObject("planeObject");
+    //     scene.remove('pointcloud-scan-' + labelTool.currentFileIndex);
+    //     scene.add(pointCloudScanMap[labelTool.currentFileIndex]);
+    // });
+    // let chooseSequenceDropDownController;
+    // let currentDatasetDropDownController = guiOptions.add(labelTool, 'currentDataset', labelTool.datasetArray).name("Choose dataset")
+    //     .onChange(function (value) {
+    //         changeDataset(value);
+    //         chooseSequenceDropDownController = chooseSequenceDropDownController.options(labelTool.dataStructure.datasets[labelTool.currentDatasetIdx].sequences);
+    //         let allCheckboxes = $(":checkbox");
+    //         let showNuScenesLabelsCheckbox = allCheckboxes[0];
+    //         if (value === labelTool.datasets.NuScenes) {
+    //             enableShowNuscenesLabelsCheckbox(showNuScenesLabelsCheckbox);
+    //         }
+    //         hideMasterView();
+    //     });
+
+    // let visibility = folderBoundingBox3DArray[folderBoundingBox3DArray.length - 1].add(bbox, 'visibility').min(0).step(1).name('Visibility');
+    // visibility.onChange(function (value) {
+    //     // check validity
+    //     // get smallest available track id for this class (look at all objects within that sequence)
+    //
+    //     let minTrackId = getSmallestTrackId(bbox.class);
+    //     if (value < 0 || value > 100) {
+    //         labelTool.logger.error("You have entered an invalid track ID.");
+    //     }
+    //     labelTool.logger.success("Track ID for class " + bbox.class + " was set to " + minTrackId + ".");
+    //     value = Math.round(minTrackId);
+    //     // update cube name
+    //     //labelTool.cubeArray[labelTool.currentFileIndex][insertIndex].name = 'cube-' + bbox.class.charAt(0) + value;
+    //     annotationObjects.contents[labelTool.currentFileIndex][insertIndex]["trackId"] = value;
+    //     if (labelTool.selectedMesh !== undefined) {
+    //         labelTool.selectedMesh.name = 'cube-' + bbox.class.charAt(0) + value;
+    //     }
+    //     $("#bounding-box-3d-menu ul").children().eq(insertIndex + numGUIOptions).children().first().children().first().children().first().text(bbox.class + " " + value);
+    // });
 }
 
 //reset cube parameter and position

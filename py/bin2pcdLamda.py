@@ -5,7 +5,7 @@ import numpy as np
 path_in = 'input/NuScenes/official/pointclouds-bin/'
 path_out = 'input/NuScenes/official/pointclouds_pcd/'
 for file in sorted(os.listdir(path_in)):
-    points = np.fromfile(path_in+file, dtype=np.float32).reshape(-1, 4)
+    points = np.fromfile(path_in+file, dtype=np.float32).reshape(-1, 5)
 
     # write header
     num_points = len(points)
