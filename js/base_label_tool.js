@@ -1025,7 +1025,32 @@ let labelTool = {
             timeString = pad(hours, 2) + ":" + pad(minutes, 2) + ":" + pad(seconds, 2);
             $("#time-elapsed").text(timeString);
         }, labelTool.timeDelay);
-    }, start() {
+    },async start() {
+        try {
+            // Fetch the text file and store the first line's data in labelTool.numFramesNuScenes
+            const response = await fetch('output.txt');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const textData = await response.text();
+            labelTool.numFramesNuScenes = parseInt(textData.trim().split('\n')[0], 10);
+            console.log('Number of frames (NuScenes):', labelTool.numFramesNuScenes);
+
+            // Continue with your other operations
+            let fileNameArray = [];
+            if (labelTool.currentDataset === 'NuScenes') {
+                labelTool.numFrames = labelTool.numFramesNuScenes;
+            } else if (labelTool.currentDataset === 'providentia') {
+                // Add labelTool.numFramesProvidentia if available
+                labelTool.numFrames = 0; // Replace with the appropriate value for providentia
+            }
+
+            for (let i = 0; i < labelTool.numFrames; i++) {
+                fileNameArray.push(pad(i, 6));
+            }
+
+            labelTool.fileNames = fileNameArray;
+            console.log('File names array:', labelTool.fileNames);
         this.initTimer();
         this.setFileNames();
         this.initClasses();
@@ -1038,7 +1063,10 @@ let labelTool = {
         this.initPointCloudWindow();
         this.loadPointCloudData();
         this.loadAnnotations();
-    },
+    }catch (error) {
+            console.error('Error loading the file:', error);
+        }
+        },
     loadConfig() {
         labelTool.dataStructure = loadConfigFile(labelTool.configFileName);
         for (let i = 0; i < labelTool.dataStructure.datasets.length; i++) {
@@ -1055,29 +1083,51 @@ let labelTool = {
         labelTool.targetClass = labelTool.classes[0];
     },
     setFileNames() {
-        let fileNameArray = [];
-        fetch('py/output.txt')
-            .then(response => response.text())
-            .then(text => {
-                labelTool.numFramesNuScenes = text.split('\n')[0];
-                //console.log(firstLine);
-            })
-            .catch(error => {
-                console.error('Error fetching file:', error);
-            });
-        if (labelTool.currentDataset === labelTool.datasets.NuScenes) {
-            labelTool.numFrames = labelTool.numFramesNuScenes;
-            for (let i = 0; i < labelTool.numFrames; i++) {
-                fileNameArray.push(pad(i, 6))
-            }
-
-        } else if (labelTool.currentDataset === labelTool.datasets.providentia) {
-            labelTool.numFrames = labelTool.numFramesProvidentia;
-            for (let i = 0; i < labelTool.numFrames; i++) {
-                fileNameArray.push(pad(i, 6))
-            }
-        }
-        labelTool.fileNames = fileNameArray;
+        // let fileNameArray = [];
+        // if (labelTool.currentDataset === labelTool.datasets.NuScenes) {
+        //     labelTool.numFrames = labelTool.numFramesNuScenes;
+        //     for (let i = 0; i < labelTool.numFrames; i++) {
+        //         fileNameArray.push(pad(i, 6))
+        //     }
+        //
+        // } else if (labelTool.currentDataset === labelTool.datasets.providentia) {
+        //     labelTool.numFrames = labelTool.numFramesProvidentia;
+        //     for (let i = 0; i < labelTool.numFrames; i++) {
+        //         fileNameArray.push(pad(i, 6))
+        //     }
+        // }
+        // labelTool.fileNames = fileNameArray;
+        // fetch('py/output.txt')
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok');
+        //         }
+        //         return response.text();
+        //     })
+        //     .then(textData => {
+        //         // Store the first line's data in labelTool.numFramesNuScenes
+        //         labelTool.numFramesNuScenes = parseInt(textData.trim().split('\n')[0], 10);
+        //         console.log('Number of frames (NuScenes):', labelTool.numFramesNuScenes);
+        //
+        //         // Continue with your other operations
+        //         let fileNameArray = [];
+        //         if (labelTool.currentDataset === 'NuScenes') {
+        //             labelTool.numFrames = labelTool.numFramesNuScenes;
+        //         } else if (labelTool.currentDataset === 'providentia') {
+        //             // Add labelTool.numFramesProvidentia if available
+        //             labelTool.numFrames = 0; // Replace with the appropriate value for providentia
+        //         }
+        //
+        //         for (let i = 0; i < labelTool.numFrames; i++) {
+        //             fileNameArray.push(pad(i, 6));
+        //         }
+        //
+        //         labelTool.fileNames = fileNameArray;
+        //         console.log('File names array:', labelTool.fileNames);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error loading the file:', error);
+        //     });
     },
 
     previousFrame: function () {
