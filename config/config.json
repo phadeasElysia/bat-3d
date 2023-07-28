@@ -3,8 +3,6 @@
     {
       "name": "NuScenes",
       "sequences": [
-        "ONE",
-        "offical1",
         "official"
       ],
       "classes": [

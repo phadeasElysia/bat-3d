@@ -3,7 +3,12 @@ import numpy as np
 # import pcl
 
 path_in = 'input/NuScenes/official/pointclouds-bin/'
-path_out = 'input/NuScenes/official/pointclouds_pcd/'
+path_out = 'input/NuScenes/official/pointclouds/'
+if os.listdir(path_out):
+    for filename in os.listdir(path_out):
+        file_path = os.path.join(path_out, filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
 for file in sorted(os.listdir(path_in)):
     points = np.fromfile(path_in+file, dtype=np.float32).reshape(-1, 5)
 
