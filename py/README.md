@@ -37,3 +37,4 @@
 在base_label_tool.js [39](https://github.com/phadeasElysia/bat-3d/blob/04c8dda04b6ea01ad2601a0ec45835c8906527bf/js/base_label_tool.js#L39) 添加了 currentMinTrackId[] 
 
 ### 相关界面的trackId栏暂时无法使用
+     
