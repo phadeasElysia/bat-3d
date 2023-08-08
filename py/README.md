@@ -27,8 +27,18 @@
 ## 对标注物添加visibility属性
 如果您在标注网页中绘制了bounding box，在屏幕右侧可以找到每个box并选择其属性，visibility可以在其中更改。提供'0%-40%','41%-60%','61%-80%','91%-100%'四种选择，若未进行选择默认为undefined。
 ### 添加visibility功能的代码改动：
-在pcd_label_tool.js addBoundingBoxGui 1227,1244-1263行进行了改动[1227](https://github.com/phadeasElysia/bat-3d/blob/ccf8a9dc089a85350e939ca617cda071dca68e19/js/pcd_label_tool.js#L1227)
-在base_label_tool.js createAnnotationFile 594-604行进行了改动。[594](https://github.com/phadeasElysia/bat-3d/blob/ccf8a9dc089a85350e939ca617cda071dca68e19/js/base_label_tool.js#L594)
+在pcd_label_tool.js addBoundingBoxGui 1227,1244-1263行进行了改动。
+在base_label_tool.js createAnnotationFile 594-604行进行了改动。
+
+## 更改标注物trackId的属性
+将trackId更改为递增数字不考虑当前帧的熟练。仅考虑总共的标签的物体数量。
+### 代码改动：
+在pcd_label_tool.js setHighestAvailableTrackId 763-778 进行改动。
+在base_label_tool.js 添加了 currentMinTrackId[] 
+
+### 相关界面的trackId栏暂时无法使用
+
+
 
 
 
