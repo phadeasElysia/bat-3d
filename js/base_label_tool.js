@@ -36,6 +36,7 @@ let labelTool = {
     spriteArray: [],
     bboxIndexArray: [],
     currentCameraChannelIndex: 0,
+    currentMinTrackId: [],
     camChannels: [{
         channel: 'CAM_FRONT_LEFT',
         positionCameraNuScenes: [1.564, 0.472, 1.535],

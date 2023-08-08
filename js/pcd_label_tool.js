@@ -760,21 +760,46 @@ function updateXPos(newFileIndex, value) {
  * @param label
  */
 function setHighestAvailableTrackId(label) {
-    for (let newTrackId = 0; newTrackId <= annotationObjects.contents[labelTool.currentFileIndex].length; newTrackId++) {
-        let exist = false;
-        for (let i = 0; i < annotationObjects.contents[labelTool.currentFileIndex].length; i++) {
-            if (label === annotationObjects.contents[labelTool.currentFileIndex][i]["class"] && newTrackId === annotationObjects.contents[labelTool.currentFileIndex][i]["trackId"]) {
-                exist = true;
-                break;
-            }
-        }
-        if (exist === false) {
-            // track id was not used yet
-            classesBoundingBox[label].nextTrackId = newTrackId;
-            break;
-        }
-        classesBoundingBox[label].nextTrackId = annotationObjects.contents[labelTool.currentFileIndex].length + 1;
+    let newClass ={
+        class: label,
+        minTrackId: 0
     }
+    for(let i = 0; i < labelTool.currentMinTrackId.length; i++){
+        if(labelTool.currentMinTrackId.length !== 0){
+            if (labelTool.currentMinTrackId[i].hasOwnProperty("class")){
+                if(labelTool.currentMinTrackId[i]["class"] === label){
+                    classesBoundingBox[label].nextTrackId = labelTool.currentMinTrackId[i]["minTrackId"] + 1
+                    labelTool.currentMinTrackId[i]["minTrackId"]++
+                }else{
+                    labelTool.currentMinTrackId.push(newClass)
+                    classesBoundingBox[label].nextTrackId = 0
+                }
+
+            }else{
+                labelTool.currentMinTrackId.push(newClass)
+                classesBoundingBox[label].nextTrackId = 0
+            }
+        }else{
+            labelTool.currentMinTrackId.push(newClass)
+            classesBoundingBox[label].nextTrackId = 0
+        }
+
+    }
+    // for (let newTrackId = annotationObjects.contents[labelTool.currentFileIndex].length; newTrackId <= annotationObjects.contents[labelTool.currentFileIndex].length; newTrackId++) {
+    //     let exist = false;
+    //     for (let i = 0; i < annotationObjects.contents[labelTool.currentFileIndex].length; i++) {
+    //         if (label === annotationObjects.contents[labelTool.currentFileIndex][i]["class"] && newTrackId === annotationObjects.contents[labelTool.currentFileIndex][i]["trackId"]) {
+    //             exist = true;
+    //             break;
+    //         }
+    //     }
+    //     if (exist === false) {
+    //         // track id was not used yet
+    //         classesBoundingBox[label].nextTrackId = newTrackId;
+    //         break;
+    //     }
+    //     classesBoundingBox[label].nextTrackId = annotationObjects.contents[labelTool.currentFileIndex].length + 1;
+    // }
 }
 
 function getSmallestTrackId(classNameToFind) {
